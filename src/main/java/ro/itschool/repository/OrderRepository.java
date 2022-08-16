@@ -4,17 +4,20 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import ro.itschool.entity.Order;
 import java.util.List;
-import java.util.Optional;
 
 
-public interface OrderRepository extends JpaRepository<OrderRepository, Long > {
+
+public interface OrderRepository extends JpaRepository<Order, Long > {
 
     @Transactional
     void deleteById(Long id);
-    void save(Order order);
-    void  findById(Long id);
 
-    Optional<OrderRepository> findById(Long id);
+
+
+
+    void create(Order order);
+
+
 
     @Query(
             value = "SELECT * FROM order WHERE user_id = ?",

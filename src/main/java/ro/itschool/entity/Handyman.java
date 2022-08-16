@@ -14,11 +14,12 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 public class Handyman  {
-    @CsvBindByPosition(position = 0)
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @CsvBindByPosition(position = 0)
     @Column(name="handyman_id")
-    private long id;
+    private Long id;
     @CsvBindByPosition(position = 1)
     @Column(nullable = false, unique = true)
     private String username;
@@ -55,17 +56,23 @@ public class Handyman  {
     @ToString.Exclude
     private Handyman handyman;
 
+
+    public Handyman(Handyman handyman) {
+        this.handyman = handyman;
+    }
+
     public Handyman
             (String name, String surname, String skill, int experience, int rating, String email, int cellphone, Set<Skill> skils) {
         this.name = name;
         this.surname = surname;
-        this.skill = skill;
+        this.skills = getSkills();
         this.experience = experience;
         this.rating = rating;
         this.email = email;
         this.phoneNumber = cellphone;
-        this.skills = getSkills();
         this.username = getUsername();
+
+
 
     }
 

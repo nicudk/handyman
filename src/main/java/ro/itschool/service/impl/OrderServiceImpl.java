@@ -1,6 +1,5 @@
 package ro.itschool.service.impl;
 
-package ro.itschool.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.itschool.entity.Handyman;
@@ -11,6 +10,7 @@ import ro.itschool.repository.UserRepository;
 import ro.itschool.service.OrderService;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -22,15 +22,17 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private UserRepository userRepository;
 
-
-    @Override
-    public void deleteById(Long id) throws CustomException {
-        Order order = orderRepository.findById(id);
-        if (order != null && order.getHandyman().contains(new Handyman()))
-            throw new CustomException("Please asure that you take a handyman");
-        orderRepository.deleteById(id);
-
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
     }
+//
+//    public void deleteById(Long id) throws CustomException {
+//       Order order = orderRepository.deleteById(id);
+//        if (order != null && order.getHandyman().contains(new Handyman()))
+//            throw new CustomException("Please assure  that you delete the handyman");
+//        orderRepository.deleteById(id);
+//
+//    }
 
     @Override
     public void save(Order order) { orderRepository.save(order);
@@ -38,14 +40,19 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getAllOrders() {return orderRepository.findAll();}
+    public List<Order> getAllOrders() {
+       return orderRepository.findAll() ;
+    }
 
     @Override
-    public Order findById(Long id) {return orderRepository.findById(id);}
+    public Optional<Order> findById(Long id) {
+        return orderRepository.findById(id);
+    }
+
 
     @Override
-    public Order create(Order order) {order.setDateCreated(LocalDateTime.now())
-        return this.orderRepository.save(order);
+    public void createOrder(Order order) {order.setCreatedAt(LocalDateTime.now());
+        orderRepository.save(order);
     }
 
     @Override

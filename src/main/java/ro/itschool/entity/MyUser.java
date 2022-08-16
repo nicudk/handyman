@@ -63,8 +63,8 @@ public class MyUser implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-//    private Set<BankAccount> accounts;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private Set<Order> orders;
 
     @Transient
     private String passwordConfirm;

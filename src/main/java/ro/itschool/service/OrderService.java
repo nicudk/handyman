@@ -5,6 +5,7 @@ import ro.itschool.entity.Order;
 import ro.itschool.exception.CustomException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public interface OrderService {
@@ -15,7 +16,7 @@ public interface OrderService {
 
     List<Order> getAllOrders();
 
-    Order findById (Long id);
+   Optional<Order> findById (Long id);
 
     void createOrder(Order order);
 
