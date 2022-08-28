@@ -2,11 +2,13 @@ package ro.itschool.startup;
 
 
 
+import aj.org.objectweb.asm.Handle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
+import ro.itschool.entity.Handyman;
 import ro.itschool.entity.MyUser;
 import ro.itschool.entity.Role;
 
@@ -22,9 +24,9 @@ public class RunAtStartup {
 
     @Autowired
     private UserService userService;
-
     @EventListener(ContextRefreshedEvent.class)
     public void contextRefreshedEvent() {
+
         MyUser myUser = new MyUser();
         myUser.setUsername("user0");
         myUser.setPassword("user0");
@@ -42,8 +44,8 @@ public class RunAtStartup {
         myUser.setPasswordConfirm("user0");
         myUser.setRandomTokenEmail("randomToken");
 
+        Handyman handyman =new Handyman();
 
-//        Set<BankAccount> accounts = new HashSet<>();
 //        BankAccount bankAccount = new BankAccount();
 //        bankAccount.setAmount(12D);
 //        bankAccount.setCurrency(Currency.EUR);

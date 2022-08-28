@@ -18,6 +18,8 @@ public interface HandymanService {
 
     Handyman saveHandyman(Handyman handyman);
 
+
+
     void updateHandyman(Handyman handyman);
 
     List<Handyman> searchHandyman(String keyword);

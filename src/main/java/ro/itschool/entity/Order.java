@@ -14,12 +14,12 @@ import java.util.Set;
 @Setter
 @Entity
 @ToString
-public class  Order {
+public class Order {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id ;
+    private Long id;
 
     private String currency;
 
@@ -32,11 +32,12 @@ public class  Order {
     @ToString.Exclude
     private MyUser user;
 
-    @OneToMany(mappedBy = "handyman", cascade = CascadeType.REMOVE)
-    private Set<Handyman> handyman;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
+    private Set<Handyman> handymanSet;
+
 
     public Order() {
-        this.currency="RON";
+        this.currency = "RON";
         this.createdAt = LocalDateTime.now();
         this.amount = 0D;
     }
