@@ -3,27 +3,40 @@ package ro.itschool.startup;
 
 
 import aj.org.objectweb.asm.Handle;
+import com.opencsv.bean.CsvToBeanBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
+import ro.itschool.CSV.SetupCSV;
 import ro.itschool.entity.Handyman;
 import ro.itschool.entity.MyUser;
+import ro.itschool.entity.Order;
 import ro.itschool.entity.Role;
 
+import ro.itschool.service.HandymanService;
+import ro.itschool.service.OrderService;
 import ro.itschool.service.UserService;
 import ro.itschool.util.Constants;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Component
 public class RunAtStartup {
-
+    private static final String Path = "C:\\Users\\eComputer\\Desktop\\IT school\\handyman\\src\\main\\resources\\handyman.csv";
     @Autowired
     private UserService userService;
+    @Autowired
+    HandymanService handymanService;
+    @Autowired
+    OrderService orderService;
     @EventListener(ContextRefreshedEvent.class)
     public void contextRefreshedEvent() {
 
@@ -44,8 +57,27 @@ public class RunAtStartup {
         myUser.setPasswordConfirm("user0");
         myUser.setRandomTokenEmail("randomToken");
 
-        Handyman handyman =new Handyman();
 
+        Handyman handyman = new Handyman();
+        List<SetupCSV> setupCSVList = readDataFromCSVFile();
+        SetupCSV setupCSV = setupCSVList.get(0);
+        handyman.setId(setupCSV.getId());
+        handyman.setName(setupCSV.getName());
+        handyman.setSurname(setupCSV.getSurname());
+        handyman.setUsername(setupCSV.getUsername());
+        handyman.setSkill(setupCSV.getSkill());
+        handyman.setExperience(setupCSV.getExperience());
+        handyman.setRating(setupCSV.getRating());
+        handyman.setEmail(setupCSV.getEmail());
+        handyman.setPhoneNumber(setupCSV.getPhoneNumber());
+
+        Order order = new Order();
+        order.setId(1L);
+        orderService.save(order);
+        handyman.setOrder(order);
+
+        System.out.println(handyman);
+        handymanService.saveHandyman(handyman);
 //        BankAccount bankAccount = new BankAccount();
 //        bankAccount.setAmount(12D);
 //        bankAccount.setCurrency(Currency.EUR);
@@ -75,7 +107,22 @@ public class RunAtStartup {
 //        saveAnotherUser2();
 
     }
+    public static List<SetupCSV> readDataFromCSVFile() {
+        try {
+            return new CsvToBeanBuilder<SetupCSV>(new FileReader(Path))
+                    .withType(SetupCSV.class)
+                    .withSkipLines(1)
+                    .build()
+                    .parse();
 
+        } catch (
+                FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return  new ArrayList<>();
+
+    }
     private void saveAdminUser() {
 
         MyUser myUser = new MyUser();
