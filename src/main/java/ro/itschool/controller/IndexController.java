@@ -5,20 +5,28 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ro.itschool.entity.Handyman;
+import ro.itschool.entity.MyUser;
+import ro.itschool.entity.Order;
+import ro.itschool.service.HandymanService;
 import ro.itschool.service.UserService;
+
+import java.util.List;
 
 @Controller
 public class IndexController {
 
     @Autowired
-    private UserService userService;
+    private HandymanService handymanService;
 
     @RequestMapping(value = {"/index"})
     public String index(Model model) {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        model.addAttribute("accounts", userService.findUserByUserName(auth.getName()).getAccounts());
+        List<Handyman> handymen = handymanService.findAll();
+        model.addAttribute("handymen", handymen);
         return "index";
     }
+
 
 }

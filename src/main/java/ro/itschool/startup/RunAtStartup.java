@@ -1,7 +1,5 @@
 package ro.itschool.startup;
 
-
-
 import aj.org.objectweb.asm.Handle;
 import com.opencsv.bean.CsvToBeanBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +28,7 @@ import java.util.Set;
 
 @Component
 public class RunAtStartup {
-    private static final String Path = "C:\\Users\\eComputer\\Desktop\\IT school\\handyman\\src\\main\\resources\\handyman.csv";
+    private static final String Path = "src\\main\\resources\\handyman.csv";
     @Autowired
     private UserService userService;
     @Autowired
@@ -58,9 +56,12 @@ public class RunAtStartup {
         myUser.setRandomTokenEmail("randomToken");
 
 
-        Handyman handyman = new Handyman();
-        List<SetupCSV> setupCSVList = readDataFromCSVFile();
-        SetupCSV setupCSV = setupCSVList.get(0);
+//        Handyman handyman = new Handyman();
+        List<Handyman> handymanCSVList = readDataFromCSVFile();
+
+
+
+        /*SetupCSV setupCSV = setupCSVList.get(0);
         handyman.setId(setupCSV.getId());
         handyman.setName(setupCSV.getName());
         handyman.setSurname(setupCSV.getSurname());
@@ -69,15 +70,15 @@ public class RunAtStartup {
         handyman.setExperience(setupCSV.getExperience());
         handyman.setRating(setupCSV.getRating());
         handyman.setEmail(setupCSV.getEmail());
-        handyman.setPhoneNumber(setupCSV.getPhoneNumber());
+        handyman.setPhoneNumber(setupCSV.getPhoneNumber());*/
 
-        Order order = new Order();
-        order.setId(1L);
-        orderService.save(order);
-        handyman.setOrder(order);
+//        Order order = new Order();
+//        order.setId(1L);
+//        orderService.save(order);
+//        handyman.setOrder(order);
 
-        System.out.println(handyman);
-        handymanService.saveHandyman(handyman);
+//        System.out.println(handyman);
+//        handymanService.saveHandyman(setupCSVList.get(0));
 //        BankAccount bankAccount = new BankAccount();
 //        bankAccount.setAmount(12D);
 //        bankAccount.setCurrency(Currency.EUR);
@@ -101,16 +102,17 @@ public class RunAtStartup {
 //        myUser.setAccounts(accounts);
 
         userService.saveUser(myUser);
+        handymanService.saveAll(handymanCSVList);
 
 //        saveAdminUser();
 //        saveAnotherUser();
 //        saveAnotherUser2();
 
     }
-    public static List<SetupCSV> readDataFromCSVFile() {
+    public static List<Handyman> readDataFromCSVFile() {
         try {
-            return new CsvToBeanBuilder<SetupCSV>(new FileReader(Path))
-                    .withType(SetupCSV.class)
+            return new CsvToBeanBuilder<Handyman>(new FileReader(Path))
+                    .withType(Handyman.class)
                     .withSkipLines(1)
                     .build()
                     .parse();

@@ -2,10 +2,10 @@ package ro.itschool.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ro.itschool.email.EmailBodyService;
 import ro.itschool.email.EmailSender;
 import ro.itschool.entity.Handyman;
-import ro.itschool.entity.MyUser;
 import ro.itschool.entity.Skill;
 import ro.itschool.repository.HandymanRepository;
 import ro.itschool.repository.SkillRepository;
@@ -66,6 +66,22 @@ import java.util.*;
             });
             return handymanRepository.save(handyman);
 
+        }
+
+        @Override
+        public void saveAll(List<Handyman> handymenList) {
+            handymanRepository.saveAll(handymenList);
+        }
+
+        @Override
+        public Optional<Handyman> findHandymanById(Long id) {
+            return handymanRepository.findById(id);
+        }
+
+        @Override
+        @Transactional
+        public void addOrderedHandyman(Handyman handyman) {
+            handymanRepository.save(handyman);
         }
 
         @Override

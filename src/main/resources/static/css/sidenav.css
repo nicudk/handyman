@@ -1,14 +1,14 @@
 
    body {
     margin: 0;
-    font-family: "Optima", sans-serif,
+    font-family: "Optima", sans-serif;
     height: 100%;
     }
 
 
 .sidenav {
   height: 100%;
-  width: 150;
+  width: 150%;
   position: fixed;
   z-index: 1;
   top: 0;

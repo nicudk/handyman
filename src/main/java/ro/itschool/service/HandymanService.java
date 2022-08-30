@@ -4,6 +4,7 @@ import ro.itschool.entity.Handyman;
 
 
 import java.util.List;
+import java.util.Optional;
 
 public interface HandymanService {
 
@@ -18,7 +19,11 @@ public interface HandymanService {
 
     Handyman saveHandyman(Handyman handyman);
 
+    void saveAll(List<Handyman> handymenList);
 
+    Optional<Handyman> findHandymanById(Long id);
+
+    public void addOrderedHandyman(Handyman handyman);
 
     void updateHandyman(Handyman handyman);
 

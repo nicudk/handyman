@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head th:replace="fragments :: page_head('Booking')"></head>
+<body>
+
+<div class="container-fluid">
+
+    <div th:replace="navigation :: menu"></div>
+
+    <div>
+        <h2>Booking Page</h2>
+    </div>
+
+    <div class="full-details">
+        <table class="table table-bordered table-striped table-hover table-responsive-md">
+            <thead class="thead-light">
+            <tr>
+                <th>Id</th>
+                <th>Currency</th>
+                <th>Created At</th>
+                <th>Amount</th>
+            </tr>
+            <tbody>
+            <tr th:each="order : ${orders}">
+                <td><span th:text="${order.id}">Id</span></td>
+                <td><span th:text="${order.currency}">Currency</span></td>
+                <td><span th:text="${order.createdAt}">Created At</span></td>
+                <td><span th:text="${order.amount}">Amount</span></td>
+            </tr>
+            </tbody>
+            </thead>
+        </table>
+    </div>
+</div>
+</body>
+</html>

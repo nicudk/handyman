@@ -24,6 +24,8 @@ public interface UserService {
 
     List<MyUser> searchUser(String keyword);
 
+    MyUser getCurrentUser();
+
 }
 
 

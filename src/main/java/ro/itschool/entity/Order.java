@@ -12,10 +12,10 @@ import java.util.Set;
 
 @Getter
 @Setter
-@Entity
 @ToString
+@Entity
+@Table(name = "orders")
 public class Order {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,16 +25,16 @@ public class Order {
 
     private Double amount;
 
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ToString.Exclude
-    private MyUser user;
+    private MyUser myUser;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "order" /*cascade = CascadeType.REMOVE*/, fetch = FetchType.LAZY)
     private Set<Handyman> handymanSet;
-
 
     public Order() {
         this.currency = "RON";

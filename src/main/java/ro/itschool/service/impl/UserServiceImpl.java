@@ -98,6 +98,13 @@ public  class UserServiceImpl implements UserService {
         return null;
     }
 
+    @Override
+    public MyUser getCurrentUser() {
+        MyUser loggedUser = (MyUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        MyUser myUser = findUserByUserName(loggedUser.getUsername());
+        return myUser;
+    }
+
     private List<GrantedAuthority> getUserAuthority(Set<Role> userRoles) {
         Set<GrantedAuthority> roles = new HashSet<>();
         for (Role role : userRoles) {

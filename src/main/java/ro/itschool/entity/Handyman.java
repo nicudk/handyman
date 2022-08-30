@@ -1,9 +1,7 @@
 package ro.itschool.entity;
+import com.opencsv.bean.CsvBindByPosition;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,32 +9,52 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity
+@AllArgsConstructor
 @ToString
+@Entity
 public class Handyman  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @CsvBindByPosition(position = 0)
     @Column(name="handyman_id")
     private Long id;
+
+    @CsvBindByPosition(position = 3)
     @Column(nullable = false, unique = true)
     private String username;
+
+    @CsvBindByPosition(position = 1)
     @Column(nullable = false, length = 30)
     private String name;
+
+    @CsvBindByPosition(position = 2)
     @Column(nullable = false, length = 30)
     private String surname;
+
+    @CsvBindByPosition(position = 4)
     @Column(nullable = false)
     private String skill;
+
+    @CsvBindByPosition(position = 5)
     @Column(nullable = false)
     private int experience;
+
+    @CsvBindByPosition(position = 6)
     @Column(nullable = false)
     private int rating;
+
+    @CsvBindByPosition(position = 7)
     @Column(nullable = false, length = 30, unique = true)
     private String email;
+
+    @CsvBindByPosition(position = 8)
     @Column(nullable = false, length = 12, unique = true)
     private long phoneNumber;
 
-
+    @CsvBindByPosition(position = 9)
+    @Column(name = "service_price")
+    private Double servicePrice;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "handyman_skills",
@@ -45,9 +63,8 @@ public class Handyman  {
     private Set<Skill> skills = new HashSet<>();
 
     @ManyToOne
-    @JoinColumn(insertable = false,updatable = false,name="handyman_id")
+    @JoinColumn(name="order_id", referencedColumnName = "id")
     private Order order;
-
 
     public Handyman
             (String name, String username , String surname, String skill, int experience, int rating, String email, int cellphone, Set<Skill> skills) {
@@ -77,6 +94,7 @@ public class Handyman  {
         this.email = h.getEmail();
         this.phoneNumber = h.getPhoneNumber();
         this.username = h.getUsername();
+        this.servicePrice = h.getServicePrice();
     }
 }
 

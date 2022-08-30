@@ -4,15 +4,26 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import ro.itschool.service.impl.CustomUserDetailsService;
-@Configuration
-public class WebSecurityConfig {
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+@Configuration
+@EnableWebSecurity
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    /**
+     * I changeg security approach (extend WebSecurityConfigurerAdapter), because that method can't permit /css/** files.
+     * But here with WebSecurityConfigurerAdapter I override void configure(WebSecurity web), and all is works.
+     * @param http
+     * @throws Exception
+     */
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
         http.authenticationProvider(authenticationProvider())
                 .csrf().disable()
                 .authorizeRequests()
@@ -33,7 +44,11 @@ public class WebSecurityConfig {
 
         http.headers().frameOptions().sameOrigin();
 
-        return http.build();
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+         web.ignoring().antMatchers("/css/**", "/webjars/**");
     }
 
     @Bean
