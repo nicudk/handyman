@@ -23,10 +23,7 @@ public class RegisterController {
     @GetMapping(value = "/register")
     public String registerForm(Model model) {
         MyUser user = new MyUser();
-        user.setAccountNonExpired(true);
-        user.setAccountNonLocked(true);
-        user.setCredentialsNonExpired(true);
-        user.setEnabled(false);
+
 
         model.addAttribute("user", user);
 
@@ -36,7 +33,10 @@ public class RegisterController {
     @PostMapping(value = "/register")
     public String registerUser(@ModelAttribute("user") @RequestBody MyUser user) {
         if (user.getPassword().equals(user.getPasswordConfirm())) {
-
+            user.setAccountNonExpired(true);
+            user.setAccountNonLocked(true);
+            user.setCredentialsNonExpired(true);
+            user.setEnabled(false);
             user.setRoles(Collections.singleton(new Role(Constants.ROLE_USER)));
             userService.saveUser(user);
             return "register-success";

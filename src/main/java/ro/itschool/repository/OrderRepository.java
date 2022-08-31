@@ -13,13 +13,6 @@ public interface OrderRepository extends JpaRepository<Order, Long > {
     @Transactional
     void deleteById(Long id);
 
-//    void create(Order order);
-
-
-
-    /*@Query(
-            value = "SELECT * FROM order WHERE user_id = ?",
-            nativeQuery = true)*/
     @Query("SELECT o FROM Order o WHERE o.myUser.id = ?1")
     List<Order> findByUserId(Long userId);
 }
